@@ -18,6 +18,7 @@ const HOSTNAME = process.env.HOSTNAME || '0.0.0.0';
 const PORT = process.env.PORT || 3000;
 const LIMIT = 3000; // Constrain screenshots to 3000x3000px
 const WINDOW_WIDTH = parseInt(process.env.WINDOW_WIDTH, 10) || 1024;
+const UA = process.env.UA || false;
 const WINDOW_HEIGHT = parseInt(process.env.WINDOW_HEIGHT, 10) || 768;
 const app = express();
 
@@ -190,6 +191,7 @@ app.get(/^\/(png|jpeg)/, auth, (req, res) => {
   req.sanitize('quality').toInt(10);
   req.sanitize('browserWidth').toInt(10);
   req.sanitize('browserHeight').toInt(10);
+  req.sanitize('ua').stripLow();
 
   if (req.query.clippingRect) {
     req.sanitize('clippingRect.x').toInt(10);
